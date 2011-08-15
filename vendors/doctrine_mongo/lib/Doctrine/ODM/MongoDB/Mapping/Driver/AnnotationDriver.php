@@ -20,14 +20,13 @@
 namespace Doctrine\ODM\MongoDB\Mapping\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader,
+    Doctrine\Common\Annotations\AnnotationRegistry,
     Doctrine\Common\Annotations\Reader,
     Doctrine\ODM\MongoDB\Events,
     Doctrine\ODM\MongoDB\Mapping\Annotations as ODM,
     Doctrine\ODM\MongoDB\Mapping\ClassMetadata,
     Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo,
     Doctrine\ODM\MongoDB\MongoDBException;
-
-require __DIR__ . '/../Annotations/DoctrineAnnotations.php';
 
 /**
  * The AnnotationDriver reads the mapping metadata from docblock annotations.
@@ -76,6 +75,16 @@ class AnnotationDriver implements Driver
     private $classNames;
 
     /**
+     * Registers annotation classes to the common registry.
+     *
+     * This method should be called when bootstrapping your application.
+     */
+    public static function registerAnnotationClasses()
+    {
+        AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/DoctrineAnnotations.php');
+    }
+
+    /**
      * Initializes a new AnnotationDriver that uses the given Reader for reading
      * docblock annotations.
      * 
@@ -122,7 +131,7 @@ class AnnotationDriver implements Driver
             foreach (self::$documentAnnotationClasses as $i => $annotClass) {
                 if ($annot instanceof $annotClass) {
                     $documentAnnots[$i] = $annot;
-                    goto next_annotation;
+                    continue 2;
                 }
             }
 
@@ -146,7 +155,6 @@ class AnnotationDriver implements Driver
                 $class->setChangeTrackingPolicy(constant('Doctrine\\ODM\\MongoDB\\Mapping\\ClassMetadata::CHANGETRACKING_'.$annot->value));
             }
 
-            next_annotation:
         }
 
         if (!$documentAnnots) {
@@ -348,7 +356,6 @@ class AnnotationDriver implements Driver
     {
         if ($reader == null) {
             $reader = new AnnotationReader();
-            $reader->setAutoloadAnnotations(false);
         }
         return new self($reader, $paths);
     }

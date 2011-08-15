@@ -10,7 +10,6 @@ use Doctrine\Common\ClassLoader,
 	Doctrine\Common\Annotations\AnnotationReader
 ;
 
-
 $classLoader = new ClassLoader('Doctrine\ODM\MongoDB', APP_ROOT . '/vendors/doctrine_mongo/lib');
 $classLoader->register();
 

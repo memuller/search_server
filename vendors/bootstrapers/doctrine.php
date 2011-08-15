@@ -1,5 +1,7 @@
 <?php
 
+// TODO: makes the annotation driver load as default
+
 use Doctrine\Common\ClassLoader,
 	Doctrine\ODM\MongoDB\DocumentManager,
 	Doctrine\MongoDB\Connection,
@@ -31,7 +33,11 @@ $config->setHydratorDir(__DIR__ . '/cache');
 $config->setHydratorNamespace('Hydrators');
 
 $reader = new AnnotationReader();
-//$reader->setDefaultAnnotationNamespace('Doctrine\ODM\MongoDB\Mapping\\');
+
+// TODO: uses default namespacing on annotations. 
+//$reader->setDefaultAnnotationNamespace('Doctrine\ODM\MongoDB\Mapping\Annotations');
+//$reader->setAutoloadAnnotations(true);
+//$reader->setAnnotationNamespaceAlias('Doctrine\ODM\MongoDB\Mapping\Annotations', 'Mongo');
 $config->setMetadataDriverImpl(new AnnotationDriver($reader, 'models'));
 
 $dm = DocumentManager::create(new Connection(), $config);

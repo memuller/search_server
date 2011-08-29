@@ -6,7 +6,9 @@
 	require_once 'vendors/bootstrapers/doctrine.php';
 
 	use Doctrine\Common\ClassLoader ;
-
+	use Symfony\Component\HttpFoundation\Request ;
+	use Symfony\Component\HttpFoundation\Response ;
+	
 	# loads all models.
 	$classLoader = new ClassLoader('Models', APP_ROOT . '/models') ;
 	$classLoader->register();

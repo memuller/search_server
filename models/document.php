@@ -10,7 +10,7 @@
 		/** @Mongo\String @Mongo\Index(unique=true) */
 		public $url ;
 
-		/** @Mongo\String */
+		/** @Mongo\String @Mongo\Index */
 		public $title ;
 
 		/** @Mongo\String */
@@ -24,6 +24,9 @@
 
 		/** @Mongo\Timestamp */
 		public $createdAt ;
+
+		/** @Mongo\Array @Mongo\Index */
+		public $tags ;
 
 		public function __construct($url){
 			$this->url = $url ;

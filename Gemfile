@@ -31,6 +31,7 @@ group :test, :development  do
 	# watchr and spork for auto-spec'ing.
 	gem 'watchr'
 	gem 'spork', '~> 0.9.0.rc'
+	gem 'cool.io' #mkas watchr able to see file change events. 
 
 	# machinist for mongoid
 	gem 'machinist', '>= 2.0.0.beta1'

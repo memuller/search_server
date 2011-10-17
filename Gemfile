@@ -26,6 +26,7 @@ group :test, :development  do
 	gem 'mongoid-rspec' #rspec matchers. https://github.com/evansagge/mongoid-rspec
 
 	gem 'watchr'
+	gem 'spork'
 
 	# machinist for mongoid
 	gem 'machinist', '>= 2.0.0.beta1'

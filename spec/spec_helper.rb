@@ -17,7 +17,8 @@ Spork.prefork do
   RSpec.configure do |config|
     config.mock_with :rspec
 
-   
+    config.include Mongoid::Matchers
+
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of
     # rspec-rails.

@@ -1,4 +1,4 @@
-require 'machinist/active_record'
+require 'machinist/mongoid'
 
 # Add your blueprints here.
 #
@@ -9,5 +9,6 @@ require 'machinist/active_record'
 #   end
 
 Document.blueprint do
-  # Attributes here
+  title { "A title for doc #{sn}" }
+  uri { "http://localhost/doc/#{sn}" }
 end

@@ -28,5 +28,9 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-  
+  RSpec.configure do |config|
+    config.before :all do
+      Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    end
+  end
 end

@@ -31,7 +31,7 @@ describe DocumentsController do
     it "assigns all documents as @documents" do
       document = Document.create! valid_attributes
       get :index
-      assigns(:documents).should eq([document])
+      assigns(:documents).first.should eq(document)
     end
   end
 

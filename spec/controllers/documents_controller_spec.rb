@@ -31,6 +31,32 @@ describe DocumentsController do
       get :index
       assigns(:documents).first.should eq(document)
     end
+
+    context "pagination" do
+      
+      before :all do
+        Document.destroy_all
+        @doclist = []  
+        40.times { |i| @doclist << Document.create!(valid_attributes) }
+      end
+
+      it "should have 25 documents per page" do
+        get :index
+        assigns(:documents).size.should be 25
+      end
+
+      it "should get first page on the absence of page params" do
+        get :index 
+        assigns(:documents).first.should eq @doclist.first
+        assigns(:documents).last.should eq @doclist[24]
+      end
+
+      it "should respect the page param when it's set" do
+        get :index, page: 2
+        assigns(:documents).first.should eq @doclist[25]
+        assigns(:documents).last.should eq @doclist[39]
+      end
+    end
   end
 
   describe "GET show" do

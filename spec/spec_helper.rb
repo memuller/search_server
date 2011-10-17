@@ -15,6 +15,7 @@ Spork.prefork do
   require 'rspec/rails'
 
   require Rails.root.join('spec/support/mongoid.rb')
+  require Rails.root.join('spec/support/blueprints.rb')
 
   RSpec.configure do |config|
     config.mock_with :rspec
@@ -29,8 +30,6 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
-  require Rails.root.join('spec/support/blueprints.rb')
 
   RSpec.configure do |config|
     config.before :all do

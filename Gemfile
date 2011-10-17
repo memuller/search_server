@@ -21,12 +21,16 @@ group :test, :development  do
 	# Rspec etc
 	gem 'rspec'
 	gem 'rspec-rails'
+	
+	# acceptance testing
 	gem 'capybara'
 	gem 'steak'
+
 	gem 'mongoid-rspec' #rspec matchers. https://github.com/evansagge/mongoid-rspec
 
+	# watchr and spork for auto-spec'ing.
 	gem 'watchr'
-	gem 'spork'
+	gem 'spork', '~> 0.9.0.rc'
 
 	# machinist for mongoid
 	gem 'machinist', '>= 2.0.0.beta1'

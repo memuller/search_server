@@ -82,6 +82,8 @@ GEM
       thor (~> 0.14)
     json (1.6.1)
     json_pure (1.6.1)
+    kaminari (0.12.4)
+      rails (>= 3.0.0)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     machinist (2.0.0.beta2)
@@ -196,6 +198,7 @@ DEPENDENCIES
   haml
   haml-rails
   jquery-rails
+  kaminari
   machinist (>= 2.0.0.beta1)
   machinist_mongo!
   mongoid

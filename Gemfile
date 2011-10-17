@@ -13,6 +13,9 @@ gem 'haml-rails'
 gem 'mongoid'
 gem 'bson_ext'
 
+# kaminari paginator.
+gem 'kaminari'
+
 # server stuff
 gem 'rack', '1.3.3'
 gem 'thin'

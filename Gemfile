@@ -2,9 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
 
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 # HAML
 gem 'haml'
 gem 'haml-rails'
@@ -27,7 +24,8 @@ group :test  do
 	gem 'capybara'
 	gem 'steak'
 	gem 'autotest'
-	
+	gem 'mongoid-rspec' #rspec matchers. https://github.com/evansagge/mongoid-rspec
+
 	# machinist for mongoid
 	gem 'machinist', '>= 2.0.0.beta1'
 	gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', 

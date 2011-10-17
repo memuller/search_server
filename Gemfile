@@ -17,7 +17,7 @@ gem 'kaminari'
 gem 'rack', '1.3.3'
 gem 'thin'
 
-group :test  do
+group :test, :development  do
 	# Rspec etc
 	gem 'rspec'
 	gem 'rspec-rails'
@@ -30,9 +30,6 @@ group :test  do
 	gem 'machinist', '>= 2.0.0.beta1'
 	gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', 
 		:branch => 'machinist2', :require => 'machinist/mongoid'
-end
-
-group :development, :test do
 	gem 'ruby-debug19', :require => 'ruby-debug'
 end 
 

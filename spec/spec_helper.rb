@@ -6,18 +6,19 @@ Spork.prefork do
   # need to restart spork for it take effect.
   
   ENV["RAILS_ENV"] ||= 'test'
+
+  # does not load 
+  require 'rails/mongoid'
+  Spork.trap_class_method(Rails::Mongoid, :load_models)
+  
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
   require 'rspec/autorun'
 
-  # Requires supporting ruby files with custom matchers and macros, etc,
-  # in spec/support/ and its subdirectories.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  require Rails.root.join('spec/support/mongoid.rb')
 
   RSpec.configure do |config|
     config.mock_with :rspec
-
-    config.include Mongoid::Matchers
 
     # If true, the base class of anonymous controllers will be inferred
     # automatically. This will be the default behavior in future versions of
@@ -29,6 +30,9 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
+
+  require Rails.root.join('spec/support/blueprints.rb')
+
   RSpec.configure do |config|
     config.before :all do
       Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)

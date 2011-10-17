@@ -22,6 +22,7 @@ group :test  do
 	gem 'rspec'
 	gem 'rspec-rails'
 	gem 'capybara'
+	gem 'steak'
 	gem 'autotest'
 	
 	# machinist for mongoid

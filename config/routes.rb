@@ -1,5 +1,7 @@
 SearchServer::Application.routes.draw do
-  resources :documents
+  resources :documents do
+    get 'page/:page', :action => :index, :on => :collection  
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

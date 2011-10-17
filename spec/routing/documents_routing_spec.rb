@@ -30,6 +30,12 @@ describe DocumentsController do
     it "routes to #destroy" do
       delete("/documents/1").should route_to("documents#destroy", :id => "1")
     end
-
   end
+
+  describe "pagination" do
+    it "routes index respecting page attributes" do
+      get("/documents/page/1").should route_to("documents#index", page: "1")
+    end
+  end
+
 end

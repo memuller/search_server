@@ -1,22 +1,11 @@
 %h1 Listing documents
 
-%table
-  %tr
-    %th Title
-    %th Uri
-    %th
-    %th
-    %th
+.search
+  = form_tag documents_path, method: 'get' do
+    = text_field_tag :query, params[:query]
+    = submit_tag  "Search", nil
 
-  - @documents.each do |document|
-    %tr
-      %td= document.title
-      %td= document.uri
-      %td= link_to 'Show', document
-      %td= link_to 'Edit', edit_document_path(document)
-      %td= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= paginate @documents
 = link_to 'New Document', new_document_path
+  
+
+= render 'results'

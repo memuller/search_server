@@ -19,5 +19,9 @@ describe "documents/index.html.haml" do
     render
     rendered.should have_css("nav.pagination")
   end
+
+  describe "search form" do
+    render
+    rendered.should have_css(".search input[type='text']")
   
 end

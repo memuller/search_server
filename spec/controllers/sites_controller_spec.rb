@@ -24,7 +24,7 @@ describe SitesController do
   # Site. As you add validations to Site, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    Fabricate.attributes_for :site
   end
 
   describe "GET index" do

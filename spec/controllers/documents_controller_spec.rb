@@ -119,7 +119,7 @@ describe DocumentsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
         post :create, :document => {}
-        response.should render_template("new")
+        response.status.should eq 302
       end
     end
   end
@@ -163,7 +163,7 @@ describe DocumentsController do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
         put :update, :id => document.id, :document => {}
-        response.should render_template("edit")
+        response.status.should eq 302
       end
     end
   end

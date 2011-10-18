@@ -2,7 +2,8 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-    @documents = Document.page(params[:page])
+    @documents = Document.where( :title => /#{params[:query]}/i)
+    @documents = @documents.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @documents }

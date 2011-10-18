@@ -13,9 +13,10 @@ Spork.prefork do
   
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  require 'capybara/rspec'
 
   require Rails.root.join('spec/support/mongoid.rb')
-  require Rails.root.join('spec/support/blueprints.rb')
+  #require Rails.root.join('spec/support/blueprints.rb')
 
   RSpec.configure do |config|
     config.mock_with :rspec
@@ -30,7 +31,7 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
+  Fabrication.clear_definitions
   RSpec.configure do |config|
     config.before :all do
       Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)

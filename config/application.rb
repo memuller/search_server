@@ -21,7 +21,7 @@ module SearchServer
     config.generators do |c|
       c.orm = :mongoid
       c.template_engine = :haml
-      c.fixture_replacement = :machinist
+      c.fixture_replacement = :fabrication
       c.testing_framework = :rspec
     end
     # Settings in config/environments/* take precedence over those specified here.

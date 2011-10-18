@@ -21,24 +21,25 @@ group :test, :development  do
 	# Rspec etc
 	gem 'rspec'
 	gem 'rspec-rails'
-	
+
 	# acceptance testing
 	gem 'capybara'
-	gem 'steak'
 
 	gem 'mongoid-rspec' #rspec matchers. https://github.com/evansagge/mongoid-rspec
 
 	# watchr and spork for auto-spec'ing.
 	gem 'watchr'
 	gem 'spork', '~> 0.9.0.rc'
-	gem 'cool.io' #mkas watchr able to see file change events. 
+	gem 'cool.io' #mkas watchr able to see file change events.
 
+	gem 'fabrication'
+	gem 'faker'
 	# machinist for mongoid
-	gem 'machinist', '>= 2.0.0.beta1'
-	gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git', 
-		:branch => 'machinist2', :require => 'machinist/mongoid'
+	#gem 'machinist', '>= 2.0.0.beta1'
+	#gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git',
+	#	:branch => 'machinist2', :require => 'machinist/mongoid'
 	gem 'ruby-debug19', :require => 'ruby-debug'
-end 
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

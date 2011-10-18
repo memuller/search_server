@@ -22,7 +22,7 @@ describe DocumentsController do
   # Document. As you add validations to Document, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    Document.make.attributes.except("_id")
+    Fabricate.attributes_for :document
   end
 
   describe "GET index" do
@@ -33,7 +33,6 @@ describe DocumentsController do
     end
 
     context "pagination" do
-      
       before :all do
         Document.destroy_all
         @doclist = []  
@@ -42,19 +41,17 @@ describe DocumentsController do
 
       it "should have 25 documents per page" do
         get :index
-        assigns(:documents).size.should be 25
+        assigns(:documents).options[:limit].should be 25
       end
 
       it "should get first page on the absence of page params" do
         get :index 
-        assigns(:documents).first.should eq @doclist.first
-        assigns(:documents).last.should eq @doclist[24]
+        assigns(:documents).options[:skip].should be 0
       end
 
       it "should respect the page param when it's set" do
         get :index, page: 2
-        assigns(:documents).first.should eq @doclist[25]
-        assigns(:documents).last.should eq @doclist[39]
+        assigns(:documents).options[:skip].should be 25
       end
     end
   end

@@ -1,19 +1,20 @@
-%table
-  %tr
-    %th Title
-    %th Uri
-    %th
-    %th
-    %th
-
-  - @documents.each do |document|
+#results
+  %table
     %tr
-      %td= document.title
-      %td= document.uri
-      %td= link_to 'Show', document
-      %td= link_to 'Edit', edit_document_path(document)
-      %td= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete
+      %th Title
+      %th Uri
+      %th
+      %th
+      %th
 
-%br
+    - @documents.each do |document|
+      %tr
+        %td= document.title
+        %td= document.uri
+        %td= link_to 'Show', document
+        %td= link_to 'Edit', edit_document_path(document)
+        %td= link_to 'Destroy', document, :confirm => 'Are you sure?', :method => :delete
 
-= paginate @documents
+  %br
+
+  = paginate @documents

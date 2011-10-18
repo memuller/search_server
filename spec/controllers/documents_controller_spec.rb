@@ -54,6 +54,14 @@ describe DocumentsController do
         assigns(:documents).options[:skip].should be 25
       end
     end
+
+    context "searching" do
+      it "should assing query parameter when present" do
+        get :index, query: 'test'
+        assigns(:documents).selector[:title].should eq /test/i
+      end
+    end
+
   end
 
   describe "GET show" do

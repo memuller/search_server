@@ -10,15 +10,29 @@ describe Document do
 		it { should validate_presence_of(:uri) }
 		it { should validate_uniqueness_of(:uri).case_insensitive.with_message('already indexed') }
 		it { should validate_presence_of(:title) }
+		it { should validate_presence_of(:site)}
 	end
 	
 	describe 'indexes' do
 		it { Document.index_options[:title].should_not be nil  }
-		it { Document.index_options[:uri][:unique].should == true }
+		it { Document.index_options[:uri][:unique].should be true }
 	end
 
-	describe 'relationships' do
-		it { should reference_and_be_referenced_in_many(:sites).of_type(Site)}
+	describe 'relationships with sites' do
+		before :all do
+			@url = "http://blog.cancaonova.com"
+			@document = Fabricate.build(:document, uri: @url)
+		end
+		it { should be_referenced_in(:site).of_type(Site)}
 		it { Document.index_options[:site_ids].should_not be nil }
+		it "should pass the string to the Sites.parse_and_create method before saving" do
+			Site.should_receive(:parse_and_create).with(@url)
+			@document.site = @url
+			@document.save
+		end
+		it "should be properly set to be the site provided on the string" do
+			@document.save
+			@document.site.uri.should eq "blog.cancaonova.com"
+		end
 	end
 end

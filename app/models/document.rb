@@ -4,7 +4,7 @@ class Document
   field :uri, type: String
   field :excerpt, type: String
 
-  has_and_belongs_to_many :sites
+  belongs_to :site
 
   index :title
   index :uri, unique: true
@@ -12,6 +12,13 @@ class Document
 
   validates_presence_of :title
   validates :uri, presence: true, uniqueness: {case_sensitive: false, message: 'already indexed'}
+  validates_presence_of :site
 
+  before_validation :process_site
 
+  def process_site
+  	unless(self.site.is_a? Site)
+  		self.site = Site.parse_and_create(self.uri)
+  	end
+  end
 end

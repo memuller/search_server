@@ -1,5 +1,7 @@
 SearchServer::Application.routes.draw do
-  resources :sites
+  resources :sites do
+    resources :documents
+  end
 
   resources :documents do
     get 'page/:page', :action => :index, :on => :collection  

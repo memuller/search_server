@@ -3,6 +3,12 @@ require "spec_helper"
 describe DocumentsController do
   describe "routing" do
 
+    describe "routing as a child of sites" do
+      it { get("/sites/1/documents").should route_to("documents#index", :site_id => '1') }
+
+      it { get("/sites/1/documents/2").should route_to("documents#show", :site_id => '1', :id => '2' )}
+    end
+
     it "routes to #index" do
       get("/documents").should route_to("documents#index")
     end

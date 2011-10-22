@@ -1,4 +1,5 @@
-= form_for @document do |f|
+- target = @document.new? ? [@document] : [@document, :url => site_document_path, :action => :put]
+= form_for *target do |f|
   -if @document.errors.any?
     #error_explanation
       %h2= "#{pluralize(@document.errors.count, "error")} prohibited this document from being saved:"

@@ -1,11 +1,18 @@
 SearchServer::Application.routes.draw do
-  resources :sites do
-    resources :documents
+  
+  root :to => 'sites#index'
+  resources :documents, :only => [:index, :new] do
+    get 'page/:page', :action => :index, :on => :collection
   end
-
-  resources :documents do
-    get 'page/:page', :action => :index, :on => :collection  
+  resources :sites, :path => '', :only => [], 
+      :constraints => ->(request){         
+        request.params['site_id'] != 'sites'
+      } do
+    resources :documents, :path => '' do
+      get 'page/:page', :action => :index, :on => :collection  
+    end  
   end
+  resources :sites
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

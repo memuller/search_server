@@ -3,10 +3,22 @@ require "spec_helper"
 describe DocumentsController do
   describe "routing" do
 
-    describe "routing as a child of sites" do
-      it { get("/sites/1/documents").should route_to("documents#index", :site_id => '1') }
+    describe "as a child of sites" do
+      it { get("/site_id/").should route_to("documents#index", site_id: 'site_id') }
 
-      it { get("/sites/1/documents/2").should route_to("documents#show", :site_id => '1', :id => '2' )}
+      it { get("/site_id/id").should route_to("documents#show", site_id: 'site_id', id: 'id' )}
+
+      it { get("/site_id/id/edit").should route_to("documents#edit", site_id: 'site_id', id: 'id') }
+
+      it { post("/site_id").should route_to("documents#create", site_id: 'site_id') }
+
+      it { put("/site_id/id").should route_to("documents#update", site_id: 'site_id', id: 'id') }
+
+      it { delete("/site_id/id").should route_to("documents#destroy", site_id: 'site_id', id: 'id') }
+
+      it "paginates" do
+        get('/site_id/page/2').should route_to("documents#index", page: '2', site_id: 'site_id')
+      end
     end
 
     it "routes to #index" do
@@ -17,31 +29,9 @@ describe DocumentsController do
       get("/documents/new").should route_to("documents#new")
     end
 
-    it "routes to #show" do
-      get("/documents/1").should route_to("documents#show", :id => "1")
-    end
-
-    it "routes to #edit" do
-      get("/documents/1/edit").should route_to("documents#edit", :id => "1")
-    end
-
-    it "routes to #create" do
-      post("/documents").should route_to("documents#create")
-    end
-
-    it "routes to #update" do
-      put("/documents/1").should route_to("documents#update", :id => "1")
-    end
-
-    it "routes to #destroy" do
-      delete("/documents/1").should route_to("documents#destroy", :id => "1")
-    end
-  end
-
-  describe "pagination" do
-    it "routes index respecting page attributes" do
+    it "paginates" do
       get("/documents/page/1").should route_to("documents#index", page: "1")
     end
-  end
 
+  end
 end

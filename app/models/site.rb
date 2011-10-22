@@ -15,7 +15,7 @@ class Site
   def self.parse_and_create(url)
   	url = URI.parse(url)
   	unless site = Site.where( uri: url.host ).first
-  		site = Site.create!(name: url.host , uri: url.host)
+  		site = Site.create(name: url.host , uri: url.host)
   	end
   	site
   end

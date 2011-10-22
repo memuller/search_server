@@ -32,8 +32,12 @@ class DocumentsController < ApplicationController
   def create
     if(@document = Document.new(params[:document])).save
       flash['notice'] = 'Document was successfully created.'
+      respond_with @document, 
+        :location => site_document_url(@document.site.id.to_s , @document.id.to_s)
+    else
+      respond_with @document
     end
-    respond_with @document
+    
   end
 
   # PUT /documents/1
@@ -42,7 +46,8 @@ class DocumentsController < ApplicationController
     if (@document = Document.find(params[:id])).update_attributes(params[:document])
       flash['notice'] = 'Document was successfully updated.'
     end
-    respond_with @document
+    respond_with @document, 
+        :location => site_document_url(@document.site.id.to_s , @document.id.to_s)
   end
 
   # DELETE /documents/1

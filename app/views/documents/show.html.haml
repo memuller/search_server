@@ -9,7 +9,6 @@
 %p
   %b Excerpt:
   = @document.excerpt
-
-= link_to 'Edit', edit_document_path(@document)
+= link_to 'Edit', edit_site_document_path(@document.site.id.to_s, @document.id.to_s)
 \|
-= link_to 'Back', documents_path
+= link_to 'Back', site_documents_path(@document.site.id.to_s)

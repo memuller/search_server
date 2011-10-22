@@ -13,7 +13,7 @@ Spork.prefork do
   
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
-  require 'capybara/rspec'
+  #require 'capybara/rspec'
 
   require Rails.root.join('spec/support/mongoid.rb')
   #require Rails.root.join('spec/support/blueprints.rb')

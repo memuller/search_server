@@ -24,7 +24,7 @@ describe DocumentsController do
   def valid_attributes
     Fabricate.attributes_for :document
   end
-
+  let(:site) {Fabricate(:site)}
   describe "GET index" do
     it "assigns all documents as @documents" do
       document = Document.create! valid_attributes
@@ -67,7 +67,7 @@ describe DocumentsController do
   describe "GET show" do
     it "assigns the requested document as @document" do
       document = Document.create! valid_attributes
-      get :show, :id => document.id
+      get :show, :id => document.id, :site_id => document.site.id
       assigns(:document).should eq(document)
     end
   end
@@ -82,7 +82,7 @@ describe DocumentsController do
   describe "GET edit" do
     it "assigns the requested document as @document" do
       document = Document.create! valid_attributes
-      get :edit, :id => document.id
+      get :edit, :id => document.id, :site_id => document.site.id
       assigns(:document).should eq(document)
     end
   end
@@ -91,19 +91,19 @@ describe DocumentsController do
     describe "with valid params" do
       it "creates a new Document" do
         expect {
-          post :create, :document => valid_attributes
+          post :create, :document => valid_attributes, :site_id => site.id
         }.to change(Document, :count).by(1)
       end
 
       it "assigns a newly created document as @document" do
-        post :create, :document => valid_attributes
+        post :create, :document => valid_attributes, :site_id => site.id
         assigns(:document).should be_a(Document)
         assigns(:document).should be_persisted
       end
 
       it "redirects to the created document" do
-        post :create, :document => valid_attributes
-        response.should redirect_to(Document.last)
+        post :create, :document => valid_attributes, :site_id => site.id
+        response.should redirect_to( site_document_url(Document.last.site.id, Document.last.id) )
       end
     end
 
@@ -111,14 +111,14 @@ describe DocumentsController do
       it "assigns a newly created but unsaved document as @document" do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        post :create, :document => {}
+        post :create, :document => {}, :site_id => site.id
         assigns(:document).should be_a_new(Document)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        post :create, :document => {}
+        post :create, :document => {}, :site_id => site.id
         response.status.should eq 302
       end
     end
@@ -133,19 +133,19 @@ describe DocumentsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Document.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => document.id, :document => {'these' => 'params'}
+        put :update, :id => document.id, :document => {'these' => 'params'}, :site_id => site.id
       end
 
       it "assigns the requested document as @document" do
         document = Document.create! valid_attributes
-        put :update, :id => document.id, :document => valid_attributes
+        put :update, :id => document.id, :document => valid_attributes, :site_id => site.id
         assigns(:document).should eq(document)
       end
 
       it "redirects to the document" do
         document = Document.create! valid_attributes
-        put :update, :id => document.id, :document => valid_attributes
-        response.should redirect_to(document)
+        put :update, :id => document.id, :document => valid_attributes, :site_id => site.id
+        response.should redirect_to( site_document_url( Document.last.site.id, Document.last.id ) )
       end
     end
 
@@ -154,7 +154,7 @@ describe DocumentsController do
         document = Document.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        put :update, :id => document.id, :document => {}
+        put :update, :id => document.id, :document => {}, :site_id => site.id
         assigns(:document).should eq(document)
       end
 
@@ -162,7 +162,7 @@ describe DocumentsController do
         document = Document.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        put :update, :id => document.id, :document => {}
+        put :update, :id => document.id, :document => {}, :site_id => site.id
         response.status.should eq 302
       end
     end
@@ -172,13 +172,13 @@ describe DocumentsController do
     it "destroys the requested document" do
       document = Document.create! valid_attributes
       expect {
-        delete :destroy, :id => document.id
+        delete :destroy, :id => document.id, :site_id => site.id
       }.to change(Document, :count).by(-1)
     end
 
     it "redirects to the documents list" do
       document = Document.create! valid_attributes
-      delete :destroy, :id => document.id
+      delete :destroy, :id => document.id, :site_id => site.id
       response.should redirect_to(documents_url)
     end
   end

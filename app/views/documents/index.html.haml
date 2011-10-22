@@ -1,9 +1,11 @@
 %h1 Listing documents
 
+- #debugger
 .search
   = form_tag documents_path, method: 'get', id: 'documents_search' do
     = text_field_tag :query, params[:query]
     = submit_tag  "Search"
+
 
 = link_to 'New Document', new_document_path
   

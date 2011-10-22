@@ -16,6 +16,10 @@ class Document
 
   before_validation :process_site
 
+  def to_param
+    "/#{site.id}/#{id}"
+  end
+
   def process_site
   	unless(self.site.is_a? Site)
   		self.site = Site.parse_and_create(self.uri)

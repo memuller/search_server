@@ -13,14 +13,21 @@ class Site
 
   validates_presence_of :name
   validates :uri, presence: true, uniqueness: { case_sensitive: false, message: 'already here' }
-  validates :slug, presence: true, uniqueness: { case_sensitive: false }
+    
+  before_save :generate_slug
 
   def self.parse_and_create(url)
-  	url = URI.parse(url)
+  	url = URI.parse(url) rescue nil
+    return nil unless url
   	unless site = Site.where( uri: url.host ).first
   		site = Site.create(name: url.host , uri: url.host)
   	end
   	site
+  end
+
+  private
+  def generate_slug
+      self.slug = URI.parse(self.uri).host
   end
 
 end

@@ -11,7 +11,6 @@ describe Site do
 		it { should validate_presence_of(:uri) }
 		it { should validate_uniqueness_of(:uri).case_insensitive.with_message('already here') }
 		it { should validate_presence_of(:name) }
-		it { should validate_uniqueness_of(:slug).case_insensitive }
 	end
 	
 	describe 'indexes' do
@@ -27,7 +26,13 @@ describe Site do
 	end
 
 	context "generating slug" do
-		describe "generate_slug class method" do
+		describe "generate_slug method" do
+			it { Site.new.private_methods.should include :generate_slug }
+			it "should generate a slug from site domain" do
+				site = Fabricate(:site)
+				site.slug.should eq URI.parse(site.uri).host
+			end
+			
 		end
 	end
 
@@ -46,7 +51,7 @@ describe Site do
 			context "invalid url provided" do
 				let(:invalid_url){"not_an_uri"}
 				it{ ->{ Site.parse_and_create(invalid_url) }.should_not raise_error }
-				it{ ->{ Site.parse_and_create(invalid_url) }.call }
+				it{ Site.parse_and_create(invalid_url).should be nil }
 
 			end
 			it "creates a site with proper URI" do

@@ -17,12 +17,13 @@ class Site
   before_save :generate_slug
 
   def self.parse_and_create(url)
-  	url = URI.parse(url) rescue nil
-    return nil unless url
+  	url = URI.parse(url)
   	unless site = Site.where( uri: url.host ).first
-  		site = Site.create(name: url.host , uri: url.host)
+  		site = Site.create!(name: url.host , uri: url.host)
   	end
   	site
+  rescue
+    nil
   end
 
   private

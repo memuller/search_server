@@ -52,7 +52,6 @@ describe Site do
 				let(:invalid_url){"not_an_uri"}
 				it{ ->{ Site.parse_and_create(invalid_url) }.should_not raise_error }
 				it{ Site.parse_and_create(invalid_url).should be nil }
-
 			end
 			it "creates a site with proper URI" do
 				response = Site.parse_and_create(@full_url)

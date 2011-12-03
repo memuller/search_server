@@ -36,28 +36,46 @@ describe Site do
 		end
 	end
 
+		
+	describe "parse_and_create class method" do
 
-	context "parsing an URL into a site" do
-		before :each do
-			@full_url = "http://blog.cancaonova.com/"
-			@url_with_subsite = "http://blog.cancaonova.com/revolucao"
-			@host_only = "blog.cancaonova.com"
-			Site.delete_all
-		end 
-		describe "parse_and_create class method" do
-			subject {Site}
-			it { should respond_to :parse_and_create }
-			it { ->{Site.parse_and_create(@full_url)}.should_not raise_error ArgumentError }
-			context "invalid url provided" do
-				let(:invalid_url){"not_an_uri"}
-				it{ ->{ Site.parse_and_create(invalid_url) }.should_not raise_error }
-				it{ Site.parse_and_create(invalid_url).should be nil }
-			end
-			it "creates a site with proper URI" do
-				response = Site.parse_and_create(@full_url)
-				response.uri.should eq @host_only
-			end
+		before(:each) { Site.delete_all }
 
+		let(:valid_url) { "http://cancaonova.com" }
+		let(:valid_document_urls) { [
+				"http://blog.cancaonova.com/one",
+				"http://blog.cancaonova.com/two",
+				"http://blog.cancaonova.com/three"
+			] }
+		let(:invalid_url) { "not an uri" } 
+		subject { Site }
+		
+		it { should respond_to :parse_and_create }
+		it { Site.method(:parse_and_create).parameters.size.should be 1 }
+		
+		describe "ignoring protocol and sub-uri" do
+			it "should use only the host when checking for duplicates" do
+				Site.should_receive(:where).with({ uri: URI.parse(valid_url).host })
+				Site.parse_and_create(valid_url)
+			end
+		end
+
+		context "invalid url provided" do			
+			it{ ->{ Site.parse_and_create(invalid_url) }.should_not raise_error }
+			it{ Site.parse_and_create(invalid_url).should be nil }
+		end
+		
+		context "site with the url already exists" do
+			it "returns it" do
+				Site.parse_and_create(valid_url).should == Site.parse_and_create(valid_url)
+			end
+		end
+		
+		context "url is valid and untaken" do
+			it "creates and returns a site with proper URI" do
+				response = Site.parse_and_create(valid_url)
+				response.uri.should eq URI.parse(valid_url).host
+			end
 		end
 	end
 end

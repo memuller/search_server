@@ -28,7 +28,7 @@ class Site
 
   private
   def generate_slug
-      self.slug = URI.parse(self.uri).host
+    self.slug = URI.parse('http://' + self.uri).host
   end
 
 end

@@ -30,7 +30,7 @@ describe Site do
 			it { Site.new.private_methods.should include :generate_slug }
 			it "should generate a slug from site domain" do
 				site = Fabricate(:site)
-				site.slug.should eq URI.parse(site.uri).host
+				site.slug.should eq URI.parse('http://' + site.uri).host
 			end
 			
 		end

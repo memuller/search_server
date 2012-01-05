@@ -14,7 +14,7 @@ class Site
   validates_presence_of :name
   validates :uri, presence: true, uniqueness: { case_sensitive: false, message: 'already here' }
     
-  before_save :generate_slug
+  before_validation :generate_slug
 
   def self.parse_and_create(url)
   	url = URI.parse(url)

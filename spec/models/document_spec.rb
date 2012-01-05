@@ -37,6 +37,28 @@ describe Document do
 			end
 		end
 
+		context "when receiving site parameter" do
+			before do
+				@document = Document.last
+			end
+
+			describe "getting the document list" do
+
+				# it "should find the site by its slug" do
+				# 	Site.should_receive(:where).with(:slug => @document.site.slug).and_return(@document.site)
+				# 	Document.query site: @document.site.slug
+
+				# end
+
+				it "should return a scope of this site's documents" do
+					Document.query( site: @document.site.slug).all.should include(@document)
+				end
+			end
+
+
+			it "should treat site_id as its synonimun"
+		end
+
 	end
 
 	describe 'relationships with sites' do

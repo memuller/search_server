@@ -16,9 +16,13 @@ class Document
 
   before_validation :process_site
 
-
-  def self.query
-    Site.where
+  def self.query(args={})
+    object = Document
+    if (args.include? :site )
+      object = Site.where(:slug => args[:site]).first.documents
+      args.delete :site 
+    end
+    object.where args
   end
 
   def to_param

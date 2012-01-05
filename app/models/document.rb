@@ -16,6 +16,11 @@ class Document
 
   before_validation :process_site
 
+
+  def self.query
+    Site.where
+  end
+
   def to_param
     "/#{site.id}/#{id}"
   end

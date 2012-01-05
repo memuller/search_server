@@ -18,6 +18,27 @@ describe Document do
 		it { Document.index_options[:uri][:unique].should be true }
 	end
 
+	describe 'search method' do
+		before(:all) do
+			10.times { Fabricate(:document) }
+		end
+		
+		subject { Document }
+
+		it { should respond_to :query }
+
+		context "no parameter is passed" do
+			it "should not fail" do 
+				->{ Document.query }.should_not raise_error 
+			end
+
+			it "should return all documents" do
+				Document.query.should eq Document.all
+			end
+		end
+
+	end
+
 	describe 'relationships with sites' do
 		before :all do
 			@url = "http://blog.cancaonova.com"

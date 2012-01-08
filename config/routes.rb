@@ -1,7 +1,7 @@
 SearchServer::Application.routes.draw do
   
   root :to => 'sites#index'
-  resources :documents, :only => [:index, :new] do
+  resources :documents, :only => [:index, :new, :create] do
     get 'page/:page', :action => :index, :on => :collection
   end
   resources :sites, :path => '', :only => [], 

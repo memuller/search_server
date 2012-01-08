@@ -99,18 +99,18 @@ describe DocumentsController do
     describe "with valid params" do
       it "creates a new Document" do
         expect {
-          post :create, :document => valid_attributes, :site_id => site.id
+          post :create, :document => valid_attributes
         }.to change(Document, :count).by(1)
       end
 
       it "assigns a newly created document as @document" do
-        post :create, :document => valid_attributes, :site_id => site.id
+        post :create, :document => valid_attributes
         assigns(:document).should be_a(Document)
         assigns(:document).should be_persisted
       end
 
       it "redirects to the created document" do
-        post :create, :document => valid_attributes, :site_id => site.id
+        post :create, :document => valid_attributes
         response.should redirect_to( site_document_url(Document.last.site.id, Document.last.id) )
       end
     end
@@ -119,16 +119,35 @@ describe DocumentsController do
       it "assigns a newly created but unsaved document as @document" do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        post :create, :document => {}, :site_id => site.id
+        post :create, :document => {}
         assigns(:document).should be_a_new(Document)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        post :create, :document => {}, :site_id => site.id
+        post :create, :document => {}
         response.status.should eq 302
       end
+    end
+
+    describe "checking if document already exists" do
+
+      context "document exists" do
+        it "should redirect to update" do
+          doc_params = valid_attributes and Document.create! doc_params
+          Document.any_instance.should_receive(:update_attributes)
+          post :create, document: doc_params
+        end
+      end
+
+      it "should display the updated attributes" do
+        doc_params = valid_attributes and Document.create! doc_params
+        doc_params[:title] = 'a new title'
+        post :create, document: doc_params
+        assigns(:document).title.should == 'a new title'
+      end
+
     end
   end
 

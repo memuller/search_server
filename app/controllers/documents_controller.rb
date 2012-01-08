@@ -35,7 +35,13 @@ class DocumentsController < ApplicationController
       respond_with @document, 
         :location => site_document_url(@document.site.id.to_s , @document.id.to_s)
     else
-      respond_with @document
+
+      if doc = Document.where(uri: params[:document][:uri]).first
+        params[:id] = doc.id
+        update
+      else
+        respond_with @document
+      end
     end
     
   end

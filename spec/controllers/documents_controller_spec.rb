@@ -29,7 +29,7 @@ describe DocumentsController do
     it "assigns all documents as @documents" do
       document = Document.create! valid_attributes
       get :index
-      assigns(:documents).first.should eq(document)
+      assigns(:documents).should include document
     end
 
     context "pagination" do
@@ -56,8 +56,16 @@ describe DocumentsController do
     end
 
     context "searching" do
-      it "should assing query parameter when present" do
-        get :index, query: 'test'
+      context "site-scoped" do
+        it "should pass site id to searcher method" do
+          doc = Fabricate(:document)
+          get :index, site_id: doc.site.slug
+          assigns(:documents).selector['site_id'].should == doc.site.id
+        end
+      end
+
+      it "should assign string parameter when present (to a title search)" do
+        get :index, string: 'test'
         assigns(:documents).selector[:title].should eq /test/i
       end
     end

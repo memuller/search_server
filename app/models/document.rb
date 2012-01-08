@@ -18,11 +18,15 @@ class Document
 
   def self.query(args={})
     object = Document
-    if (args.include? :site )
-      object = Site.where(:slug => args[:site]).first.documents
+    if args.include? :site 
+      object = Site.where(:slug => args[:site]).first.documents if args[:site]
       args.delete :site 
     end
-    object.where args
+    if args.include? :string
+      args[:title] = /#{args[:string]}/i if args[:string]
+      args.delete :string
+    end
+    object.where(args)
   end
 
   def to_param

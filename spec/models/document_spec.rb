@@ -55,8 +55,30 @@ describe Document do
 				end
 			end
 
+			it "should ignore null site argument" do
+				Document.query( site: nil ).should include(@document)
+			end
 
 			it "should treat site_id as its synonimun"
+		end
+
+		context "when receiving string parameter" do
+		  before(:all) do
+		    @documents = []
+		    5.times { @documents << Fabricate(:document) }
+		  end
+
+			it "should search on the document's title" do
+				Document.query( string: @documents.first.title ).first.should == @documents.first
+			end
+
+			it "should not return non-matching values" do
+				Document.query( string: @documents.first.title).each do |result|
+					@documents.each do |document|
+						document.should_not == result unless document == @documents.first
+					end
+				end
+			end
 		end
 
 	end

@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-    @documents = params[:query] ? Document.where( :title => /#{params[:query]}/i) : Document
+    @documents = Document.query( :string => params[:string], :site => params[:site_id] )
     @documents = @documents.page(params[:page])
     respond_with @documents
   end

@@ -6,12 +6,14 @@ describe Site do
 		it { should have_field(:uri).of_type(String) }
 		it { should have_field(:name).of_type(String) }
 		it { should have_field(:slug).of_type(String) }
+		it { should have_field(:description).of_type(String) }
 	end
 	describe 'validations' do
 		it { should validate_presence_of(:uri) }
 		it { should validate_uniqueness_of(:uri).case_insensitive.with_message('already here') }
 		it { should validate_presence_of(:name) }
-		it { should validate_uniqueness_of(:uri) }
+		it { should validate_presence_of(:slug) }
+		it { should validate_uniqueness_of(:slug) }
 	end
 	
 	describe 'indexes' do

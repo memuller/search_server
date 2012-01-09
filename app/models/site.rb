@@ -3,6 +3,7 @@ class Site
   field :name, type: String
   field :uri, type: String
   field :slug, type: String
+  field :description, type: String
 
   has_many :documents, :dependent => :destroy
 

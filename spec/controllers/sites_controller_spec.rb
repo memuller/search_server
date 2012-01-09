@@ -38,7 +38,7 @@ describe SitesController do
   describe "GET show" do
     it "assigns the requested site as @site" do
       site = Site.create! valid_attributes
-      get :show, :id => site.id
+      get :show, :id => site.slug
       assigns(:site).should eq(site)
     end
   end
@@ -53,7 +53,7 @@ describe SitesController do
   describe "GET edit" do
     it "assigns the requested site as @site" do
       site = Site.create! valid_attributes
-      get :edit, :id => site.id
+      get :edit, :id => site.slug
       assigns(:site).should eq(site)
     end
   end
@@ -98,24 +98,24 @@ describe SitesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested site" do
-        site = Site.create! valid_attributes
+        site = Fabricate(:site)
         # Assuming there are no other sites in the database, this
         # specifies that the Site created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Site.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => site.id, :site => {'these' => 'params'}
+        put :update, :id => site.slug, :site => {'these' => 'params'}
       end
 
       it "assigns the requested site as @site" do
         site = Site.create! valid_attributes
-        put :update, :id => site.id, :site => valid_attributes
+        put :update, :id => site.slug, :site => valid_attributes
         assigns(:site).should eq(site)
       end
 
       it "redirects to the site" do
-        site = Site.create! valid_attributes
-        put :update, :id => site.id, :site => valid_attributes
+        site = Fabricate(:site)
+        put :update, :id => site.slug, :site => {name: 'new'}
         response.should redirect_to(site)
       end
     end
@@ -125,7 +125,7 @@ describe SitesController do
         site = Site.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Site.any_instance.stub(:save).and_return(false)
-        put :update, :id => site.id, :site => {}
+        put :update, :id => site.slug, :site => {}
         assigns(:site).should eq(site)
       end
 
@@ -133,7 +133,7 @@ describe SitesController do
         site = Site.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Site.any_instance.stub(:save).and_return(false)
-        put :update, :id => site.id, :site => {}
+        put :update, :id => site.slug, :site => {}
         response.should render_template("edit")
       end
     end
@@ -143,13 +143,13 @@ describe SitesController do
     it "destroys the requested site" do
       site = Site.create! valid_attributes
       expect {
-        delete :destroy, :id => site.id
+        delete :destroy, :id => site.slug
       }.to change(Site, :count).by(-1)
     end
 
     it "redirects to the sites list" do
       site = Site.create! valid_attributes
-      delete :destroy, :id => site.id
+      delete :destroy, :id => site.slug
       response.should redirect_to(sites_url)
     end
   end

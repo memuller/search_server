@@ -29,6 +29,10 @@ describe DocumentsController do
       get("/documents/new").should route_to("documents#new")
     end
 
+    it "routes to #create" do
+      post("/documents").should route_to("documents#create")
+    end
+
     it "paginates" do
       get("/documents/page/1").should route_to("documents#index", page: "1")
     end

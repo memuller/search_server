@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe "sites/show.html.haml" do
   before(:each) do
-    @site = assign(:site, stub_model(Site,
-      :name => "Name",
-      :uri => "Uri"
-    ))
+    @site = assign(:site, Fabricate(:site))
   end
 
   it "renders attributes in <p>" do

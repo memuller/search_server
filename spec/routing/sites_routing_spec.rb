@@ -2,13 +2,12 @@ require "spec_helper"
 
 describe SitesController do
   describe "routing" do
-
-# Route constraints are untestable as of now.
-=begin
-
     it "root should route to #index" do
       get("/").should route_to("sites#index")
     end
+
+# Route constraints are untestable as of now.
+=begin
 
     it "routes to #new" do
       get("/sites/new").should route_to("sites#new")

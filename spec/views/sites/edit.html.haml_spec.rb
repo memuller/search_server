@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe "sites/edit.html.haml" do
   before(:each) do
-    @site = assign(:site, stub_model(Site,
-      :name => "MyString",
-      :uri => "MyString"
-    ))
+    @site = assign(:site, Fabricate(:site))
   end
 
   it "renders the edit site form" do

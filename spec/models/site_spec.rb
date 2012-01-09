@@ -11,6 +11,7 @@ describe Site do
 		it { should validate_presence_of(:uri) }
 		it { should validate_uniqueness_of(:uri).case_insensitive.with_message('already here') }
 		it { should validate_presence_of(:name) }
+		it { should validate_uniqueness_of(:uri) }
 	end
 	
 	describe 'indexes' do
@@ -26,13 +27,21 @@ describe Site do
 	end
 
 	context "generating slug" do
-		describe "generate_slug method" do
-			it { Site.new.private_methods.should include :generate_slug }
-			it "should generate a slug from site domain" do
+		it { Site.new.private_methods.should include :generate_slug }
+		it { Site.new.private_methods.should include :assign_slug }
+		
+		context "slug is not set" do
+			it "should generate and assign a slug from site domain" do
 				site = Fabricate(:site)
-				site.slug.should eq URI.parse('http://' + site.uri).host
+				site.slug.should eq URI.parse('http://' + site.uri).host.split('.').first
 			end
-			
+			context "slug already exists" do
+				it "should append a number on its end"
+				it "should increment numbers on its end"
+			end
+		end
+		context "slug is set" do
+			it "should not change it"
 		end
 	end
 

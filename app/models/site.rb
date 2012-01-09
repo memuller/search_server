@@ -13,8 +13,9 @@ class Site
 
   validates_presence_of :name
   validates :uri, presence: true, uniqueness: { case_sensitive: false, message: 'already here' }
-    
-  before_validation :generate_slug
+  validates :slug, presence: true, uniqueness: true
+      
+  before_validation :assign_slug
 
   def self.parse_and_create(url)
   	url = URI.parse(url)
@@ -26,9 +27,22 @@ class Site
     nil
   end
 
+  def to_param
+    "#{self.slug}"
+  end
+
   private
+  def assign_slug
+    unless self.slug
+      generate_slug and i = 0
+      while Site.where(slug: self.slug).size > 0
+        self.slug += i.to_s and i.next
+      end
+    end
+  end
+
   def generate_slug
-    self.slug = URI.parse('http://' + self.uri).host
+    self.slug = URI.parse('http://' + self.uri).host.split('.').first
   end
 
 end

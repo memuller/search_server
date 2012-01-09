@@ -30,7 +30,7 @@ class Document
   end
 
   def to_param
-    "/#{site.id}/#{id}"
+    "/#{site.slug}/#{id}"
   end
 
   def process_site

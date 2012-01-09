@@ -160,18 +160,18 @@ describe DocumentsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Document.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => document.id, :document => {'these' => 'params'}, :site_id => site.id
+        put :update, :id => document.id, :document => {'these' => 'params'}, :site_id => site.slug
       end
 
       it "assigns the requested document as @document" do
         document = Document.create! valid_attributes
-        put :update, :id => document.id, :document => valid_attributes, :site_id => site.id
+        put :update, :id => document.id, :document => valid_attributes, :site_id => site.slug
         assigns(:document).should eq(document)
       end
 
       it "redirects to the document" do
         document = Document.create! valid_attributes
-        put :update, :id => document.id, :document => valid_attributes, :site_id => site.id
+        put :update, :id => document.id, :document => valid_attributes, :site_id => site.slug
         response.should redirect_to( site_document_url( Document.last.site.id, Document.last.id ) )
       end
     end
@@ -181,7 +181,7 @@ describe DocumentsController do
         document = Document.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        put :update, :id => document.id, :document => {}, :site_id => site.id
+        put :update, :id => document.id, :document => {}, :site_id => site.slug
         assigns(:document).should eq(document)
       end
 
@@ -189,7 +189,7 @@ describe DocumentsController do
         document = Document.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Document.any_instance.stub(:save).and_return(false)
-        put :update, :id => document.id, :document => {}, :site_id => site.id
+        put :update, :id => document.id, :document => {}, :site_id => site.slug
         response.status.should eq 302
       end
     end
@@ -199,13 +199,13 @@ describe DocumentsController do
     it "destroys the requested document" do
       document = Document.create! valid_attributes
       expect {
-        delete :destroy, :id => document.id, :site_id => site.id
+        delete :destroy, :id => document.id, :site_id => site.slug
       }.to change(Document, :count).by(-1)
     end
 
     it "redirects to the documents list" do
       document = Document.create! valid_attributes
-      delete :destroy, :id => document.id, :site_id => site.id
+      delete :destroy, :id => document.id, :site_id => site.slug
       response.should redirect_to(documents_url)
     end
   end

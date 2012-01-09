@@ -34,7 +34,7 @@ class Document
   end
 
   def to_param
-    "/#{site.slug}/#{id}"
+    "/#{self.site.slug}/#{self.id}"
   end
 
   def process_site

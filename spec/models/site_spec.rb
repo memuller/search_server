@@ -26,27 +26,29 @@ describe Site do
 		it { Site.index_options[:document_ids].should_not be nil }
 	end
 
-	context "generating slug" do
+	context "while generating slug" do
 		it { Site.new.private_methods.should include :generate_slug }
 		it { Site.new.private_methods.should include :assign_slug }
 		
-		context "slug is not set" do
-			it "should generate and assign a slug from site domain" do
+		it "happens before validations"
+
+		context "when slug is not set" do
+			it "generates and assign a slug from site domain" do
 				site = Fabricate(:site)
 				site.slug.should eq URI.parse('http://' + site.uri).host.split('.').first
 			end
-			context "slug already exists" do
-				it "should append a number on its end"
-				it "should increment numbers on its end"
+			context "when slug already exists" do
+				it "appends a number on its end"
+				it "increments numbers on its end"
 			end
 		end
-		context "slug is set" do
-			it "should not change it"
+		context "when slug is already set" do
+			it "does not change it"
 		end
 	end
 
 		
-	describe "parse_and_create class method" do
+	describe ".parse_and_create" do
 
 		before(:each) { Site.delete_all }
 
@@ -62,25 +64,25 @@ describe Site do
 		it { should respond_to :parse_and_create }
 		it { Site.method(:parse_and_create).parameters.size.should be 1 }
 		
-		describe "ignoring protocol and sub-uri" do
-			it "should use only the host when checking for duplicates" do
+		context "when checking for duplicates" do
+			it "uses only the 'host' part of the URI" do
 				Site.should_receive(:where).with({ uri: URI.parse(valid_url).host })
 				Site.parse_and_create(valid_url)
 			end
 		end
 
-		context "invalid url provided" do			
+		context "given an invalid url " do			
 			it{ ->{ Site.parse_and_create(invalid_url) }.should_not raise_error }
 			it{ Site.parse_and_create(invalid_url).should be nil }
 		end
 		
-		context "site with the url already exists" do
+		context "given an url beloging to an already registered site" do
 			it "returns it" do
 				Site.parse_and_create(valid_url).should == Site.parse_and_create(valid_url)
 			end
 		end
-		
-		context "url is valid and untaken" do
+
+		context "given a valid url" do
 			it "creates and returns a site with proper URI" do
 				response = Site.parse_and_create(valid_url)
 				response.uri.should eq URI.parse(valid_url).host

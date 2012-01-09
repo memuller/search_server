@@ -33,10 +33,11 @@ class Site
 
   private
   def assign_slug
-    unless self.slug
-      generate_slug and i = 0
+    if self.new_record? or ! self.slug  
+      generate_slug
       while Site.where(slug: self.slug).size > 0
-        self.slug += i.to_s and i.next
+        self.slug += "0" unless self.slug[-1] =~ /^[0-9]+$/ 
+        self.slug[-1] = self.slug[-1].to_i.next.to_s
       end
     end
   end

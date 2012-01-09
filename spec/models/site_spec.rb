@@ -30,20 +30,44 @@ describe Site do
 		it { Site.new.private_methods.should include :generate_slug }
 		it { Site.new.private_methods.should include :assign_slug }
 		
-		it "happens before validations"
+		it "happens before validations" do
+			site = Fabricate.build(:site)
+			site.slug.should be_nil
+			site.valid?
+			site.slug.should eq  URI.parse('http://' + site.uri).host.split('.').first
+		end
 
 		context "when slug is not set" do
+			
 			it "generates and assign a slug from site domain" do
 				site = Fabricate(:site)
 				site.slug.should eq URI.parse('http://' + site.uri).host.split('.').first
 			end
+			
 			context "when slug already exists" do
-				it "appends a number on its end"
-				it "increments numbers on its end"
+				it "appends a number on its end" do
+					site = Fabricate(:site)
+					Fabricate(:site, slug: site.slug ,
+						uri: site.uri + '/stuff/' ).slug.should == "#{site.slug}1"
+				end
+				it "increments numbers on its end" do
+					sites = [Fabricate(:site)]
+					2.times do |i|
+						sites << Fabricate(:site, slug: sites.first.slug ,
+							uri: sites.first.uri + "/stuff#{i}/" )
+					end
+					sites.last.slug.should == "#{sites.first.slug}2"
+				end
 			end
 		end
+
 		context "when slug is already set" do
-			it "does not change it"
+			it "does not change it" do
+				site = Fabricate(:site) and old_slug = site.slug
+				site.update_attributes!(title: 'new title' )
+				site.slug.should == old_slug
+			end
+				
 		end
 	end
 

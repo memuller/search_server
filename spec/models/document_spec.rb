@@ -59,7 +59,10 @@ describe Document do
 				Document.query( site: nil ).should include(@document)
 			end
 
-			it "should treat site_id as its synonimun"
+			it "considers site_id as a synonimun to site parameter" do
+				doc = Fabricate(:document)
+				Document.query( site_id: doc.site.slug ).should include(doc)
+			end
 		end
 
 		context "when receiving string parameter" do

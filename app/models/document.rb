@@ -18,7 +18,11 @@ class Document
 
   def self.query(args={})
     object = Document
-    if args.include? :site 
+    if args.include? :site or args.include? :site_id
+      if args[:site_id]
+        args[:site] = args[:site_id]
+        args.delete :site_id
+      end  
       object = Site.where(:slug => args[:site]).first.documents if args[:site]
       args.delete :site 
     end

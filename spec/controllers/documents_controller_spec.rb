@@ -75,7 +75,7 @@ describe DocumentsController do
   describe "GET show" do
     it "assigns the requested document as @document" do
       document = Document.create! valid_attributes
-      get :show, :id => document.id, :site_id => document.site.id
+      get :show, :id => document.id, :site_id => document.site.slug
       assigns(:document).should eq(document)
     end
   end
@@ -90,7 +90,7 @@ describe DocumentsController do
   describe "GET edit" do
     it "assigns the requested document as @document" do
       document = Document.create! valid_attributes
-      get :edit, :id => document.id, :site_id => document.site.id
+      get :edit, :id => document.id, :site_id => document.site.slug
       assigns(:document).should eq(document)
     end
   end
@@ -111,7 +111,7 @@ describe DocumentsController do
 
       it "redirects to the created document" do
         post :create, :document => valid_attributes
-        response.should redirect_to( site_document_url(Document.last.site.id, Document.last.id) )
+        response.should redirect_to( site_document_url(Document.last.site.slug, Document.last.id) )
       end
     end
 
@@ -172,7 +172,7 @@ describe DocumentsController do
       it "redirects to the document" do
         document = Document.create! valid_attributes
         put :update, :id => document.id, :document => valid_attributes, :site_id => site.slug
-        response.should redirect_to( site_document_url( Document.last.site.id, Document.last.id ) )
+        response.should redirect_to( site_document_url( Document.last.site.slug, Document.last.id ) )
       end
     end
 

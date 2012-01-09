@@ -33,7 +33,7 @@ class DocumentsController < ApplicationController
     if(@document = Document.new(params[:document])).save
       flash['notice'] = 'Document was successfully created.'
       respond_with @document, 
-        :location => site_document_url(@document.site.id.to_s , @document.id.to_s)
+        :location => site_document_url(@document.site.slug , @document.id.to_s)
     else
 
       if doc = Document.where(uri: params[:document][:uri]).first
@@ -53,7 +53,7 @@ class DocumentsController < ApplicationController
       flash['notice'] = 'Document was successfully updated.'
     end
     respond_with @document, 
-        :location => site_document_url(@document.site.id.to_s , @document.id.to_s)
+        :location => site_document_url(@document.site.slug , @document.id.to_s)
   end
 
   # DELETE /documents/1

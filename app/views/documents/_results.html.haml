@@ -5,15 +5,13 @@
       %th Uri
       %th
       %th
-      %th
 
     - @documents.each do |document|
       %tr
-        %td= document.title
-        %td= document.uri
-        %td= link_to 'Show', site_document_path(document.site.id.to_s,document.id.to_s)
-        %td= link_to 'Edit', edit_site_document_path(document.site.id.to_s,document.id.to_s)
-        %td= link_to 'Destroy', site_document_path(document.site.id.to_s,document.id.to_s), :confirm => 'Are you sure?', :method => :delete
+        %td= link_to document.title, site_document_path(document.site.slug,document.id.to_s)
+        %td= link_to document.uri, document.uri
+        %td= link_to 'Edit', edit_site_document_path(document.site.slug,document.id.to_s)
+        %td= link_to 'Destroy', site_document_path(document.site.slug,document.id.to_s), :confirm => 'Are you sure?', :method => :delete
 
   %br
 

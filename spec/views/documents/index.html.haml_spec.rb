@@ -7,12 +7,27 @@ describe "documents/index.html.haml" do
     assign(:documents, Document.page())
   end
 
-  it "renders a list of documents" do
-    render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => @docs.first.title
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => @docs.first.uri
+  describe "the documents list" do
+    it "renders a list of documents" do
+      render
+      assert_select "tr",  :count => 25 + 1  
+    end
+    it "renders a link to the document" do
+      render
+      assert_select "tr>td>a[href=#{site_document_path(@docs.first.site.slug, @docs.first.id)}]", text: @docs.first.title
+    end
+    it "renders a link to the document url" do
+      render
+      assert_select "tr>td>a[href=#{@docs.first.uri}]", text: @docs.first.uri
+    end
+    it "renders a link to edit the document" do
+      render
+      assert_select "tr>td>a[href=#{edit_site_document_path(@docs.first.site.slug, @docs.first.id)}]", text: 'Edit'
+    end
+    it "renders a link to destroy the document" do
+      render
+      assert_select "tr>td>a[href=#{site_document_path(@docs.first.site.slug, @docs.first.id)}][data-method=delete]", text: 'Destroy'
+    end
   end
 
   it "renders paginations functions" do

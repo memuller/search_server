@@ -24,6 +24,7 @@ group :test, :development  do
 
 	# acceptance testing
 	gem 'capybara'
+	gem 'steak'
 
 	gem 'mongoid-rspec' #rspec matchers. https://github.com/evansagge/mongoid-rspec
 

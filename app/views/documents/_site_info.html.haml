@@ -1,0 +1,5 @@
+%h1= link_to(@site.name + "'s documents", 'http://' + @site.uri)
+#document_count
+  = @site.documents.count.to_s + " items"
+%p
+  = @site.description

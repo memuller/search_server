@@ -6,6 +6,7 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
     @documents = Document.query( :string => params[:string], :site => params[:site_id] )
+    @site = Site.first(conditions: {slug: params[:site_id]}) if params[:site_id]
     @documents = @documents.page(params[:page])
     respond_with @documents
   end

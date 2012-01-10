@@ -64,6 +64,12 @@ describe DocumentsController do
         end
       end
 
+      it "assigns current site as @site" do
+        doc = Fabricate(:document)
+        get :index, site_id: doc.site.slug
+        assigns(:site).should == doc.site
+      end
+
       it "should assign string parameter when present (to a title search)" do
         get :index, string: 'test'
         assigns(:documents).selector[:title].should eq /test/i

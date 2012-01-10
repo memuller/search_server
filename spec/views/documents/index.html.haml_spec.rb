@@ -37,8 +37,38 @@ describe "documents/index.html.haml" do
 
   it "renders a search form" do
     render
-    rendered.should have_css(".search form input[type='text']#query")
+    rendered.should have_css(".search form input[type='text']#string")
     rendered.should have_css(".search form input[type='submit']")
   end
   
+end
+
+describe "documents/index.html.haml" do
+  before(:all) do
+    Document.delete_all and @site = Fabricate(:site) and @documents = []
+    10.times do |i|
+      @documents << Fabricate(:document, uri: "http://#{@site.uri}/#{i}" )
+    end
+    assign(:documents, Document.page())
+    assign(:site, @site)
+  end
+
+  describe "site information box" do
+      
+    it "shows the site name (with url) as title" do
+    render
+      assert_select "h1>a[href=http://#{@site.uri}]", text: @site.name + "'s documents"
+    end
+
+    it "shows the site description" do
+      render
+      assert_select "p", text: @site.description
+    end
+
+    it "shows the number of documents under this site" do
+      render 
+      assert_select "div#document_count", text: @site.documents.size.to_s + " items"
+    end
+
+  end
 end

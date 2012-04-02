@@ -17,6 +17,8 @@ gem 'kaminari'
 gem 'rack', '1.3.3'
 gem 'thin'
 
+gem 'therubyracer'
+
 group :test, :development  do
 	# Rspec etc
 	gem 'rspec'
@@ -38,7 +40,9 @@ group :test, :development  do
 	#gem 'machinist', '>= 2.0.0.beta1'
 	#gem 'machinist_mongo', :git => 'https://github.com/nmerouze/machinist_mongo.git',
 	#	:branch => 'machinist2', :require => 'machinist/mongoid'
-	gem 'ruby-debug19', :require => 'ruby-debug'
+
+	gem 'pry'
+
 end
 
 # Gems used only for assets and not required
